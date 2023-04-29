@@ -1,6 +1,13 @@
-import { Grid, Stack, TextField, Typography, Button } from "@mui/material"
+import { Grid, Stack, TextField, Typography, Button } from "@mui/material";
+import { useState } from "react";
 
 export default function Home() {
+      const [ip, setip] = useState(0);
+      const [urllenght, seturllenght] = useState(0);
+      const [age, setAge] = useState(0);
+      const [traffic, setTraffic] = useState(0);
+      const [domainRegistrationLenght, setDomainRegistrationLenght] = useState(0);
+
       return (
             <div>
                   <Grid
@@ -22,7 +29,7 @@ export default function Home() {
                                     label="0 - no, 1 - yes"
                                     // value={name}
                                     onChange={(event) => {
-                                          // setName(event.target.value);
+                                          setip(parseInt(event.target.value));
                                     }}
                               />
                               <Typography variant="p">
@@ -31,14 +38,28 @@ export default function Home() {
                               <TextField
                                     sx={{ width: { lg: '55ch', xs: '30ch' } }}
                                     id="outlined-uncontrolled"
+                                    onChange={(event) => {
+                                          if(event.target.value >50){
+                                                seturllenght(-1)
+                                          }else{
+                                                seturllenght(1);
+                                          } 
+                                    }}
                               />
                               <Typography variant="p">
-                                    Domain registeration length
+                                    Domain registeration length(in years)
                               </Typography>
                               <TextField
                                     sx={{ width: { lg: '55ch', xs: '30ch' } }}
                                     id="outlined-uncontrolled"
-                                    label=""
+                                    label="eg: 6 months - 0.5"
+                                    onChange={(event) => {
+                                          if(event.target.value < 1){
+                                                setDomainRegistrationLenght(-1)
+                                          }else{
+                                                setDomainRegistrationLenght(1);
+                                          } 
+                                    }}
                               />
                               <Typography variant="p">
                                     age of domain
@@ -47,6 +68,13 @@ export default function Home() {
                                     sx={{ width: { lg: '55ch', xs: '30ch' } }}
                                     id="outlined-uncontrolled"
                                     label="in months"
+                                    onChange={(event) => {
+                                          if(event.target.value < 1){
+                                                setAge(-1)
+                                          }else{
+                                                setAge(1);
+                                          } 
+                                    }}
                               />
                               <Typography variant="p">
                                     web traffic
@@ -55,8 +83,18 @@ export default function Home() {
                                     sx={{ width: { lg: '55ch', xs: '30ch' } }}
                                     id="outlined-uncontrolled"
                                     label=""
+                                    onChange={(event) => {
+                                          if(event.target.value < 100){
+                                                setTraffic(-1)
+                                          }else{
+                                                setTraffic(1);
+                                          } 
+                                    }}
                               />
-                              <Button sx={{ backgroundColor: 'purple' }} variant="contained">Submit</Button>
+                              <Button sx={{ backgroundColor: 'purple' }} onClick={()=>{
+                                    let vars = [ip, age, traffic, domainRegistrationLenght, urllenght];
+                                    console.log(vars)
+                              }} variant="contained">Submit</Button>
 
                         </Stack>
 
