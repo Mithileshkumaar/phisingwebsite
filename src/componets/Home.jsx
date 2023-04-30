@@ -7,6 +7,7 @@ export default function Home() {
       const [age, setAge] = useState(0);
       const [traffic, setTraffic] = useState(0);
       const [domainRegistrationLenght, setDomainRegistrationLenght] = useState(0);
+      const [op, setOp] = useState(null)
 
       return (
             <div>
@@ -92,10 +93,25 @@ export default function Home() {
                                     }}
                               />
                               <Button sx={{ backgroundColor: 'purple' }} onClick={()=>{
-                                    let vars = [ip, age, traffic, domainRegistrationLenght, urllenght];
-                                    console.log(vars)
+                                    let vars = [[ip, age, traffic, domainRegistrationLenght, urllenght]];
+                                    fetch('http://127.0.0.1:5000/predict', {
+                                          method: 'POST',
+                                          body: JSON.stringify({
+                                                ip:vars
+                                          }),
+                                          headers: {
+                                            'Content-type': 'application/json; charset=UTF-8',
+                                          },
+                                        })
+                                           .then((response) => response.json())
+                                           .then((data) => {
+                                              setOp(data['output'][0]);
+                                           })
+                                           .catch((err) => {
+                                              console.log(err.message);
+                                           });
                               }} variant="contained">Submit</Button>
-
+                              {op === null?<p></p>: op === 1? <p>this website is safe to use</p>:<p>this is not safe use</p>}
                         </Stack>
 
                   </Grid>
